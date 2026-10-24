@@ -109,7 +109,7 @@ def programa():
     numero_de_votantes = 0
     while True:
         menu()
-        opcion = pedir_opcion("\nOpción: ", ["1", "2", "3", "4", "5", "6"])
+        opcion = pedir_opcion("\nOpción: ", ["1", "2", "3", "4", "5"])
         match opcion:
             case "1":
                 numero_de_candidatos = cantidad_de_candidatos()
@@ -129,9 +129,7 @@ def programa():
                 else:
                     votar(lista_de_candidatos, numero_de_votantes)
                     mostrar_resultados(lista_de_candidatos, numero_de_votantes)
-                    return
-                    
-                    
+                    return                    
             case "5":
                 return
 
