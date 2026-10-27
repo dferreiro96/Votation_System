@@ -1,8 +1,4 @@
-## Sistema_de_votación
-# diccionario de candidatos
-# funciones: votar, mostrar_resultados, main
-# sin duplicados por votantes
-
+import json
 import random
 
 
@@ -38,9 +34,27 @@ def introducir_candidatos(lista_de_candidatos):
             continue
         else:
             lista_de_candidatos.append({"Nombre": candidato, "Votos": 0})
+            guardar_datos( lista_de_candidatos)
             print(f"\nCandidato {len(lista_de_candidatos)}, {candidato} añadido")
             return
 
+def cargar_datos():
+    try:
+        with open("lista_de_candidatos.json", "r", encoding="utf-8") as archivo:
+            lista_de_candidatos = json.load(archivo)
+            print("\nDatos recuperados correctamente")
+            return lista_de_candidatos
+    except FileNotFoundError:
+        print("\nNo se encontraron datos guardados. Se creará una nueva lista.")
+        return []
+    except json.JSONDecodeError:
+        print("\nDatos guardados corruptos. Se creará una nueva lista.")
+        return []
+ 
+    
+def guardar_datos(lista_de_candidatos):
+    with open("lista_de_candidatos.json", "w", encoding="utf-8") as archivo:
+        json.dump(lista_de_candidatos, archivo, ensure_ascii=False)
 
 def cantidad_de_votantes():
     while True:
@@ -103,8 +117,8 @@ def pedir_opcion(mensaje, opciones):
             print("\nOpción no válida")
 
 
-def programa():
-    lista_de_candidatos = []
+def main():
+    lista_de_candidatos = cargar_datos()
     print("\nSistema de votación")
     numero_de_votantes = 0
     while True:
@@ -131,12 +145,14 @@ def programa():
                     mostrar_resultados(lista_de_candidatos, numero_de_votantes)
                     return                    
             case "5":
-                return
+                break
+    if not lista_de_candidatos:
+        print("\nHa salido del programa. No se han guardado datos.\n")
+        
+    else:
+        
+        print("\nHa salido del programa.\n")
 
-
-def main():
-    programa()
-    print("\nHa salido del programa satisfactoriamente\n")
 
 
 if __name__ == "__main__":
